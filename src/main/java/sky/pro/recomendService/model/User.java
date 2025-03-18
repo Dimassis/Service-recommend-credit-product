@@ -4,17 +4,13 @@ package sky.pro.recomendService.model;
 public class User {
     private Long id;
     private String name;
-    private List<Product> usedProducts;
-    private List<Transaction> transactions;
 
     public User() {
     }
 
-    public User(Long id, String name, List<Product> usedProducts, List<Transaction> transactions) {
+    public User(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.usedProducts = usedProducts;
-        this.transactions = transactions;
     }
 
     @Override
@@ -22,8 +18,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", usedProducts=" + usedProducts +
-                ", transactions=" + transactions +
                 '}';
     }
 
@@ -43,19 +37,4 @@ public class User {
         this.name = name;
     }
 
-    public List<Product> getUsedProducts() {
-        return usedProducts;
-    }
-
-    public void setUsedProducts(List<Product> usedProducts) {
-        this.usedProducts = usedProducts;
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
 }
