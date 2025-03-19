@@ -5,10 +5,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.List;
 import java.util.UUID;
+
 @Table(name = "USERS")
 public class User {
-    @Column ("id")
+    @Column("id")
     @Id
     private UUID id;
     @Column("USERNAME")
