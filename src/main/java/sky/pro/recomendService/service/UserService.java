@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final RecommendationService recommendationService;
+/*    private final RecommendationService recommendationService;
 
     public UserService(RecommendationService recommendationService) {
         this.recommendationService = recommendationService;
@@ -13,5 +13,5 @@ public class UserService {
     public List<RecommendationDTO> getRecommendationsForUser(long id) {
         // Вызов сервиса рекомендаций для получения списка рекомендаций
         return recommendationService.getRecommendations(id);
-    }
+    }*/
 }
