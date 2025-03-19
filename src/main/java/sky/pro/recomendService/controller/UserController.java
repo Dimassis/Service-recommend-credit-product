@@ -16,8 +16,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
+/*    @GetMapping("/{id}")
     public ResponseEntity<> getRecommendations(@PathVariable long id) {
         return null;
-    }
+    }*/
 }
