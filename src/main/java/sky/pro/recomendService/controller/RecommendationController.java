@@ -1,30 +1,31 @@
 package sky.pro.recomendService.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import sky.pro.recomendService.model.Recommendation;
-import sky.pro.recomendService.model.RecommendationResponse;
 import sky.pro.recomendService.service.RecommendationService;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-@RestController
+@Controller
+@RequestMapping("/recommendation")
 public class RecommendationController {
+    private final RecommendationService service;
 
-    private RecommendationService recommendationService;
-
-    public RecommendationController(RecommendationService recommendationService) {
-        this.recommendationService = recommendationService;
+    public RecommendationController(RecommendationService service) {
+        this.service = service;
     }
 
-    @GetMapping("/recommendation/{userId}")
-    public ResponseEntity<RecommendationResponse> getRecommendations(@PathVariable UUID userId) {
-        List<Recommendation> recommendations = recommendationService.getRecommendationsForUser(userId);
-        RecommendationResponse response = new RecommendationResponse(userId.toString(), recommendations);
-        return ResponseEntity.ok(response);
+
+    @GetMapping("/{id}")
+    public Optional<Recommendation> getRecommendationById(@PathVariable() UUID id) {
+        return service.getRecommendation(id);
     }
 }
