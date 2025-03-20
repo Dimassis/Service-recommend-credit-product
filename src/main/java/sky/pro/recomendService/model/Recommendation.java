@@ -5,24 +5,24 @@ import java.util.UUID;
 
 public class Recommendation {
     private final UUID id;
-    private final String product;
+    private final String name;
     private final String description;
 
-    public Recommendation(UUID id, String product, String description) {
+    public Recommendation(UUID id, String name, String description) {
         this.id = id;
-        this.product = product;
+        this.name = name;
         this.description = description;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getProduct() {
-        return product;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

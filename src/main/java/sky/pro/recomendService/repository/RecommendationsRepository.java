@@ -2,10 +2,15 @@ package sky.pro.recomendService.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import sky.pro.recomendService.model.Recommendation;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,24 +23,16 @@ public class RecommendationsRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-
     public Optional<Recommendation> getListRecommendation(UUID userId) {
-        if (hasDebitProduct(userId)) {
-            return Optional.of(new Recommendation(
-                    UUID.randomUUID(),
-                    "Debit Product",
-                    "You have a debit product! Here's your recommendation."
-            ));
+        String query = "SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ?";
+        Integer count = jdbcTemplate.queryForObject(query, Integer.class, userId);
+        System.out.println(count);
+        if (count != null && count > 0) {
+            // Пример создания Recommendation (можно заменить на реальную логику)
+            Recommendation recommendation = new Recommendation(userId, "Some Product", "Some Description");
+            return Optional.of(recommendation);
+        } else {
+            return Optional.empty();
         }
-        return Optional.empty();
-    }
-
-    private boolean hasDebitProduct(UUID userId) {
-        String sql = """
-                 SELECT COUNT(*) FROM PRODUCTS p WHERE id = '250ada57-6f5b-4f30-b1ec-513786d008f9' and p.TYPE = 'DEBIT'""";
-
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId);
-        return count != null && count > 0;
     }
 }
