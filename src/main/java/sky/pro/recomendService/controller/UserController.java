@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sky.pro.recomendService.model.Recommendation;
 import sky.pro.recomendService.service.UserService;
 
+/*
 @RestController
 @RequestMapping("/recommendation")
 public class UserController {
@@ -23,3 +24,4 @@ public class UserController {
         return null;
     }
 }
+*/
