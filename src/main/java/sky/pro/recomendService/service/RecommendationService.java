@@ -19,7 +19,7 @@ public class RecommendationService implements RecommendationRuleSet {
     }
 
     @Override
-    public Optional<Recommendation> getRecommendation(UUID userId) {
+    public Optional<List<Recommendation>> getRecommendation(UUID userId) {
         return repository.getListRecommendation(userId);
     }
 
