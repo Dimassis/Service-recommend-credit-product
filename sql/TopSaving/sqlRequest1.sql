@@ -1,1 +1,0 @@
-SELECT COUNT(*) FROM PRODUCTS p where p.TYPE = 'DEBIT'
