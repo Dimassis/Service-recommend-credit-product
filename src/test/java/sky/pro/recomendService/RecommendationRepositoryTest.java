@@ -29,6 +29,7 @@ public class RecommendationRepositoryTest {
     private final RecommendationsRepository recommendationsRepository = new RecommendationsRepository(jdbcTemplate);
 
     private static final String TOP_SAVING_NAME = "Top Saving";
+    private static final String INVEST_500 = "Invest 500";
     private final String NOT_RECOMMENDATIONS = "Нет рекомендаций";
 
     @Test
@@ -54,6 +55,42 @@ public class RecommendationRepositoryTest {
     public void shouldBackFalse_testConditionsTopSaving() {
         UUID userId = UUID.randomUUID();
         when(recommendationsRepository.recommendTopSaving(userId)).thenReturn(false);
+
+        Optional<List<Recommendation>> result = recommendationsRepository.getListRecommendation(userId);
+
+        assertTrue(result.isPresent());
+
+        List<Recommendation> recommendations = result.get();
+
+        assertEquals(1, recommendations.size());
+
+        Recommendation recommendation = recommendations.get(0);
+
+        assertEquals(NOT_RECOMMENDATIONS, recommendation.getDescription());
+    }
+    @Test
+    public void shouldBackTrue_testConditionsInvest500() throws Exception {
+        UUID userId = UUID.randomUUID();
+        when(recommendationsRepository.recommendInvest500(userId)).thenReturn(true);
+
+        Optional<List<Recommendation>> result = recommendationsRepository.getListRecommendation(userId);
+
+        assertTrue(result.isPresent());
+
+        List<Recommendation> recommendations = result.get();
+
+        assertEquals(1, recommendations.size());
+
+        Recommendation recommendation = recommendations.get(0);
+
+
+        assertEquals(INVEST_500, recommendation.getName());
+    }
+
+    @Test
+    public void shouldBackFalse_testConditionsInvest500() {
+        UUID userId = UUID.randomUUID();
+        when(recommendationsRepository.recommendInvest500(userId)).thenReturn(false);
 
         Optional<List<Recommendation>> result = recommendationsRepository.getListRecommendation(userId);
 

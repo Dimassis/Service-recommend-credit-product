@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.FileCopyUtils;
 import sky.pro.recomendService.model.Recommendation;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -41,7 +42,14 @@ public class RecommendationsRepository {
         }
 
         if (recommendInvest500(userId)) {
-            //
+            Path invest500 = Paths.get("src/main/resources/recommendInvest500.txt.txt");
+            String description;
+            try {
+                description = Files.readString(invest500);
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+            recommendations.add(new Recommendation(userId, "Inverst 500", description));
         }
 
         if (recommendJustCredit(userId)) {
@@ -63,7 +71,7 @@ public class RecommendationsRepository {
 
         Boolean exists1 = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql1, Boolean.class, userId));  //condition 1
 
-        Map<String, Object> result2 = jdbcTemplate.queryForMap(sql2,userId);
+        Map<String, Object> result2 = jdbcTemplate.queryForMap(sql2, userId);
         Boolean debitCondition = (Boolean) result2.get("debit_condition");
         Boolean savingCondition = (Boolean) result2.get("saving_condition");  //condition 2
 
@@ -73,7 +81,19 @@ public class RecommendationsRepository {
 
 
     public boolean recommendInvest500(UUID userId) {
-        return false;
+        String sql1 = loadQuery("sql/Invest500/sqlReq1.sql");
+        String sql2 = loadQuery("sql/Invest500/sqlReq2.sql");
+        String sql3 = loadQuery("sql/Invest500/sqlReq3.sql");
+
+        Boolean exists1 = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql1, Boolean.class, userId));  //condition 1
+
+        Map<String, Object> result2 = jdbcTemplate.queryForMap(sql2, userId);
+        Boolean debitCondition = (Boolean) result2.get("debit_condition");
+        Boolean savingCondition = (Boolean) result2.get("saving_condition");  //condition 2
+
+        Boolean exists3 = jdbcTemplate.queryForObject(sql3, Boolean.class, userId);  //condition 3
+        return Boolean.TRUE.equals(exists1) && Boolean.TRUE.equals(debitCondition) && Boolean.TRUE.equals(savingCondition) && Boolean.TRUE.equals(exists3);
+
     }
 
     public boolean recommendJustCredit(UUID userId) {
