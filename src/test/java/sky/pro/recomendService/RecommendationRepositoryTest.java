@@ -1,8 +1,6 @@
 package sky.pro.recomendService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -67,5 +65,24 @@ public class RecommendationRepositoryTest {
 
         assertEquals(NOT_RECOMMENDATIONS, recommendation.getDescription());
     }
+
+    @Test
+    public void shouldBackFalse_testConditionsInvest500() {
+        UUID userId = UUID.randomUUID();
+        when(recommendationsRepository.recommendInvest500(userId)).thenReturn(false);
+
+        Optional<List<Recommendation>> result = recommendationsRepository.getListRecommendation(userId);
+
+        assertTrue(result.isPresent());
+
+        List<Recommendation> recommendations = result.get();
+
+        assertEquals(1, recommendations.size());
+
+        Recommendation recommendation = recommendations.get(0);
+
+        assertEquals(NOT_RECOMMENDATIONS, recommendation.getDescription());
+    }
+
 
 }
