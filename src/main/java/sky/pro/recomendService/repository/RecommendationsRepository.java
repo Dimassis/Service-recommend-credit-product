@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,43 +21,13 @@ import java.util.UUID;
 
 @Repository
 public class RecommendationsRepository {
-    private final JdbcTemplate jdbcTemplate;
-
-    public RecommendationsRepository(@Qualifier("recommendationsJdbcTemplate") JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public Optional<List<Recommendation>> getListRecommendation(UUID userId) {
+    public Optional<List<Recommendation>> getListRecommendation(Recommendation recommendation) {
         List<Recommendation> recommendations = new ArrayList<>();
-        if (recommendTopSaving(userId)) {
-            Path pathTopSaving = Paths.get("src/main/resources/recommendTopSavingDescription.txt");
-            String description;
-            try {
-                description = Files.readString(pathTopSaving);
-            } catch (IOException e) {
-                throw new RuntimeException();
-            }
-            recommendations.add(new Recommendation(userId, "Top Saving", description));
-
-        }
-
-        if (recommendInvest500(userId)) {
-            //
-        }
-
-        if (recommendJustCredit(userId)) {
-            //
-        }
-
-        if (!recommendations.isEmpty()) {
-            return Optional.of(recommendations);
-        }
-
-        return Optional.of(List.of(new Recommendation(userId, "No Recommendation", "Нет рекомендаций")));
+        recommendations.add(recommendation);
+        return Optional.of(recommendations);
     }
 
-
-    public boolean recommendTopSaving(UUID userId) {
+/*    public boolean recommendTopSaving(UUID userId) {
         String sql1 = loadQuery("sql/TopSaving/sqlRequest1.sql");
         String sql2 = loadQuery("sql/TopSaving/sqlRequest2.sql");
         String sql3 = loadQuery("sql/TopSaving/sqlRequest3.sql");
@@ -88,5 +59,5 @@ public class RecommendationsRepository {
         } catch (Exception e) {
             throw new RuntimeException("Ошибка загрузки SQL-запроса: " + path, e);
         }
-    }
+    }*/
 }
