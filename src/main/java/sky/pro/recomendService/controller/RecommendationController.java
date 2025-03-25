@@ -27,6 +27,8 @@ public class RecommendationController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<Recommendation>> getRecommendations(@PathVariable UUID userId) {
 
+        System.out.println("");
+
         List<Recommendation> allRecommendations = new ArrayList<>();
         for (RecommendationRuleSet service : service) {
             service.getRecommendation(userId).ifPresent(allRecommendations::addAll);
@@ -34,5 +36,6 @@ public class RecommendationController {
 
         return ResponseEntity.ok(allRecommendations);
     }
+
 
 }
