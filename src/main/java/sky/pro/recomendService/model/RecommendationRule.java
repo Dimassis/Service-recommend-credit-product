@@ -1,24 +1,27 @@
 package sky.pro.recomendService.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class RecommendationRule {
     @Id
-    private UUID id;
-    private String product_name;
-    private UUID product_id;
-    private String product_text;
-    private String rule;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String productName;
+    private UUID productId;
+    private String productText;
+    @Column(columnDefinition = "jsonb")
+    @Convert(converter = RuleListConverter.class)
+    private List<RuleCondition> rule;
 
-    public RecommendationRule(UUID id, String product_name, UUID product_id, String product_text, String rule) {
+    public RecommendationRule(Long id, String productName, UUID productId, String productText, List<RuleCondition> rule) {
         this.id = id;
-        this.product_name = product_name;
-        this.product_id = product_id;
-        this.product_text = product_text;
+        this.productName = productName;
+        this.productId = productId;
+        this.productText = productText;
         this.rule = rule;
     }
 
@@ -26,43 +29,43 @@ public class RecommendationRule {
 
     }
 
-    public void setId(UUID id) {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public UUID getProduct_id() {
-        return product_id;
+    public UUID getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(UUID product_id) {
-        this.product_id = product_id;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
-    public String getProduct_text() {
-        return product_text;
+    public String getProductText() {
+        return productText;
     }
 
-    public void setProduct_text(String product_text) {
-        this.product_text = product_text;
+    public void setProductText(String productText) {
+        this.productText = productText;
     }
 
-    public String getRule() {
+    public List<RuleCondition> getRule() {
         return rule;
     }
 
-    public void setRule(String rule) {
+    public void setRule(List<RuleCondition> rule) {
         this.rule = rule;
-    }
-
-    public UUID getId() {
-        return id;
     }
 }
