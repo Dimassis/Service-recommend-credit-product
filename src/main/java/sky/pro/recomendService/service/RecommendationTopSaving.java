@@ -3,12 +3,7 @@ package sky.pro.recomendService.service;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import sky.pro.recomendService.model.Recommendation;
-import sky.pro.recomendService.repository.RecommendationsRepository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,12 +12,11 @@ import java.util.UUID;
 @Component
 public class RecommendationTopSaving implements RecommendationRuleSet {
     private final JdbcTemplate jdbcTemplate;
-    private final RecommendationsRepository repository;
     private final String DESCRIPTION = "Откройте свою собственную «Копилку» с нашим банком! «Копилка» — это уникальный банковский инструмент, который поможет вам легко и удобно накапливать деньги на важные цели";
+    private final String NORECOMMENDED = "No recommendation";
 
-    public RecommendationTopSaving(JdbcTemplate jdbcTemplate, RecommendationsRepository repository) {
+    public RecommendationTopSaving(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.repository = repository;
     }
 
     @Override
@@ -63,9 +57,9 @@ public class RecommendationTopSaving implements RecommendationRuleSet {
         boolean exists3 = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql3, Boolean.class, userId));
 
         if (exists1 || exists2 || exists3) {
-            return repository.getListRecommendation(new Recommendation(userId, "Top saving", DESCRIPTION));
+            return Optional.of(List.of(new Recommendation(userId, "Top saving", DESCRIPTION)));
         } else {
-            return repository.getListRecommendation(new Recommendation(userId, "Top saving", "No recommendation"));
+            return Optional.of(List.of(new Recommendation(userId, "Top saving", NORECOMMENDED)));
         }
     }
 }

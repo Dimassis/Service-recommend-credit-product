@@ -14,14 +14,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class RecommendationSimpleCredit implements RecommendationRuleSet{
+public class RecommendationSimpleCredit implements RecommendationRuleSet {
 
-    private JdbcTemplate jdbcTemplate;
-    private RecommendationsRepository repository;
+    private final JdbcTemplate jdbcTemplate;
+    private final String DESCRIPTION = "Откройте мир выгодных кредитов с нами! Ищете способ быстро и без лишних хлопот получить нужную сумму? Тогда наш выгодный кредит — именно то, что вам нужно";
 
-    public RecommendationSimpleCredit(JdbcTemplate jdbcTemplate, RecommendationsRepository repository) {
+    public RecommendationSimpleCredit(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.repository = repository;
     }
 
     @Override
@@ -53,16 +52,10 @@ public class RecommendationSimpleCredit implements RecommendationRuleSet{
         boolean debitSpendingGreaterThan100k = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql3, Boolean.class, userId));
 
         if (noCreditProducts || debitIncomeGreaterThanSpending || debitSpendingGreaterThan100k) {
-            Path path = Paths.get("src/main/resources/recommendSimpleCreditDescription.txt");
-            String description;
-            try {
-                description = Files.readString(path);
-            } catch (IOException e) {
-                throw new RuntimeException("Не удалось прочитать файл с описанием рекомендации", e);
-            }
-            return repository.getListRecommendation(new Recommendation(userId, "Простой кредит", description));
+
+            return Optional.of(List.of(new Recommendation(userId,"Простой кредит", DESCRIPTION)));
         } else {
-            return repository.getListRecommendation(new Recommendation(userId, "Простой кредит", "Нет рекомендации"));
+            return Optional.of(List.of(new Recommendation(userId, "Простой кредит", "Нет рекомендации")));
         }
     }
 }

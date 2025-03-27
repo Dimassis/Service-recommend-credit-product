@@ -20,9 +20,9 @@ import java.util.UUID;
 
 @Repository
 public class RecommendationsRepository {
-    public Optional<List<Recommendation>> getListRecommendation(Recommendation recommendation) {
+   /* public Optional<List<Recommendation>> getListRecommendation(Recommendation recommendation) {
         List<Recommendation> recommendations = new ArrayList<>();
         recommendations.add(recommendation);
         return Optional.of(recommendations);
-    }
+    }*/
 }

@@ -1,6 +1,7 @@
 package sky.pro.recomendService.service;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import sky.pro.recomendService.model.Recommendation;
 import sky.pro.recomendService.repository.RecommendationsRepository;
 
@@ -13,13 +14,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class RecommendationInvest500 implements RecommendationRuleSet {
     private final JdbcTemplate jdbcTemplate;
-    private final RecommendationsRepository repository;
+    private final String DESCRIPTION = "Откройте свой путь к успеху с индивидуальным инвестиционным счетом (ИИС) от нашего банка! Воспользуйтесь налоговыми льготами и начните инвестировать с умом";
 
-    public RecommendationInvest500(JdbcTemplate jdbcTemplate, RecommendationsRepository repository) {
+    public RecommendationInvest500(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.repository = repository;
     }
 
     @Override
@@ -52,21 +53,13 @@ public class RecommendationInvest500 implements RecommendationRuleSet {
         savingCondition = (savingCondition != null) ? savingCondition : false;
 
         boolean exists2 = debitCondition || savingCondition;
-
         boolean exists1 = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql1, Boolean.class, userId));
         boolean exists3 = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql3, Boolean.class, userId));
 
-        if (exists1 && exists2 && exists3) {
-            Path path = Paths.get("src/main/resources/recommendInvest500.txt");
-            String description;
-            try {
-                description = Files.readString(path);
-            } catch (IOException e) {
-                throw new RuntimeException();
-            }
-            return repository.getListRecommendation(new Recommendation(userId, "Invest 500", description));
+        if (exists1 || exists2 || exists3) {
+            return Optional.of(List.of(new Recommendation(userId, "Invest 500", DESCRIPTION)));
         } else {
-            return repository.getListRecommendation(new Recommendation(userId, "Invest 500", "No recommendation"));
+            return Optional.of(List.of(new Recommendation(userId, "Invest 500", "No recommendation")));
         }
     }
 }

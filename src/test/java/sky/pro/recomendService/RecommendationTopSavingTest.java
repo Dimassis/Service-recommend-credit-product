@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sky.pro.recomendService.model.Recommendation;
 import sky.pro.recomendService.repository.RecommendationsRepository;
+import sky.pro.recomendService.service.RecommendationService;
 import sky.pro.recomendService.service.RecommendationTopSaving;
 
 import java.nio.file.Files;
@@ -21,14 +22,12 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+
 @ExtendWith(MockitoExtension.class)
 public class RecommendationTopSavingTest {
 
     @Mock
     private JdbcTemplate jdbcTemplate;
-
-    @Mock
-    private RecommendationsRepository repository;
 
     @InjectMocks
     private RecommendationTopSaving topSavingService;
@@ -41,34 +40,31 @@ public class RecommendationTopSavingTest {
     }
 
     @Test
-    void shouldReturnRecommendation() throws Exception {
-        String description = "Text";
+    void shouldReturnRecommendation_WhenConditionsAreMet() {
+
+        String description = "Откройте свою собственную «Копилку» с нашим банком! «Копилка» — это уникальный банковский инструмент, который поможет вам легко и удобно накапливать деньги на важные цели";
         Recommendation expectedRecommendation = new Recommendation(userId, "Top saving", description);
 
-        when(jdbcTemplate.queryForObject(anyString(), eq(Boolean.class), eq(userId))).thenReturn(true);
-
-        when(repository.getListRecommendation(any(Recommendation.class))).thenReturn(Optional.of(List.of(expectedRecommendation)));
+        when(jdbcTemplate.queryForObject(anyString(), eq(Boolean.class), eq(userId))).thenReturn(true); // Conditions met
 
         Optional<List<Recommendation>> recommendations = topSavingService.getRecommendation(userId);
 
+        assertTrue(recommendations.isPresent());
         assertEquals("Top saving", recommendations.get().get(0).getName());
         assertEquals(description, recommendations.get().get(0).getDescription());
     }
 
     @Test
-    void shouldReturnNoRecommendation_WhenConditionsAreNotMet() throws Exception {
-        String expectedDescription = "Any String";
-
+    void shouldReturnNoRecommendation_WhenConditionsAreNotMet() {
+        String expectedDescription = "No recommendation";
         Recommendation expectedRecommendation = new Recommendation(userId, "Top saving", expectedDescription);
 
-        when(jdbcTemplate.queryForObject(anyString(), eq(Boolean.class), eq(userId))).thenReturn(false);
-        when(repository.getListRecommendation(any(Recommendation.class)))
-                .thenReturn(Optional.of(List.of(expectedRecommendation)));
+        when(jdbcTemplate.queryForObject(anyString(), eq(Boolean.class), eq(userId)))
+                .thenReturn(false);
 
         Optional<List<Recommendation>> recommendations = topSavingService.getRecommendation(userId);
 
+        assertTrue(recommendations.isPresent());
         assertEquals("Top saving", recommendations.get().get(0).getName());
-        assertNotEquals("No recommendsdation", recommendations.get().get(0).getDescription());
     }
-
 }
