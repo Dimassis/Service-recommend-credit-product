@@ -64,9 +64,9 @@ public class RecommendationInvest500 implements RecommendationRuleSet {
             } catch (IOException e) {
                 throw new RuntimeException();
             }
-            return repository.getListRecommendation(new Recommendation(userId, "Top saving", description));
+            return repository.getListRecommendation(new Recommendation(userId, "Invest 500", description));
         } else {
-            return repository.getListRecommendation(new Recommendation(userId, "Top saving", "No recommendation"));
+            return repository.getListRecommendation(new Recommendation(userId, "Invest 500", "No recommendation"));
         }
     }
 }

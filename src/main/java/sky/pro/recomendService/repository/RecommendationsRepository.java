@@ -41,7 +41,14 @@ public class RecommendationsRepository {
         }
 
         if (recommendInvest500(userId)) {
-            //
+            Path pathTopSaving = Paths.get("src/main/resources/recommendInvest500.txt");
+            String description;
+            try {
+                description = Files.readString(pathTopSaving);
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+            recommendations.add(new Recommendation(userId, "Invest 500", description));
         }
 
         if (recommendJustCredit(userId)) {
