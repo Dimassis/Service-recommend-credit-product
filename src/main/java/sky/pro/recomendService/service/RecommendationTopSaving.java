@@ -18,6 +18,7 @@ import java.util.UUID;
 public class RecommendationTopSaving implements RecommendationRuleSet {
     private final JdbcTemplate jdbcTemplate;
     private final RecommendationsRepository repository;
+    private final String DESCRIPTION = "Откройте свою собственную «Копилку» с нашим банком! «Копилка» — это уникальный банковский инструмент, который поможет вам легко и удобно накапливать деньги на важные цели";
 
     public RecommendationTopSaving(JdbcTemplate jdbcTemplate, RecommendationsRepository repository) {
         this.jdbcTemplate = jdbcTemplate;
@@ -62,14 +63,7 @@ public class RecommendationTopSaving implements RecommendationRuleSet {
         boolean exists3 = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql3, Boolean.class, userId));
 
         if (exists1 || exists2 || exists3) {
-            Path path = Paths.get("src/main/resources/recommendTopSavingDescription.txt");
-            String description;
-            try {
-                description = Files.readString(path);
-            } catch (IOException e) {
-                throw new RuntimeException();
-            }
-            return repository.getListRecommendation(new Recommendation(userId, "Top saving", description));
+            return repository.getListRecommendation(new Recommendation(userId, "Top saving", DESCRIPTION));
         } else {
             return repository.getListRecommendation(new Recommendation(userId, "Top saving", "No recommendation"));
         }
