@@ -1,49 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <!-- Создание таблицы PRODUCTS -->
-    <changeSet id="1" author="your_name">
-        <createTable tableName="PRODUCTS">
-            <column name="ID" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="TYPE" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <!-- Создание таблицы TRANSACTIONS -->
-    <changeSet id="2" author="your_name">
-        <createTable tableName="TRANSACTIONS">
-            <column name="ID" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="USER_ID" type="UUID">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PRODUCT_ID" type="UUID">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <!-- Добавление внешнего ключа -->
-    <changeSet id="3" author="your_name">
-        <addForeignKeyConstraint
-                baseTableName="TRANSACTIONS"
-                baseColumnNames="PRODUCT_ID"
-                referencedTableName="PRODUCTS"
-                referencedColumnNames="ID"
-                constraintName="FK_TRANSACTION_PRODUCT"/>
-    </changeSet>
+    <include file="db/changelog/rules-changelog.xml"/>
+    <include file="db/changelog/transaction.xml"/>
 
 </databaseChangeLog>
