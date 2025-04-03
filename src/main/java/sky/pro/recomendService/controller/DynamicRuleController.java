@@ -1,0 +1,21 @@
+package sky.pro.recomendService.controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import sky.pro.recomendService.model.DynamicRule;
+import sky.pro.recomendService.service.DynamicRuleService;
+
+@RestController
+@RequestMapping("/rule")
+public class DynamicRuleController {
+    private final DynamicRuleService service;
+
+    public DynamicRuleController(DynamicRuleService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public ResponseEntity<DynamicRule> addRule(@RequestBody DynamicRule rule) {
+        DynamicRule savedRule = service.createRule(rule);
+        return ResponseEntity.ok(savedRule);
+    }
+}
