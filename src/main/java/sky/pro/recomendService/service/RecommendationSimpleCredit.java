@@ -3,12 +3,7 @@ package sky.pro.recomendService.service;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import sky.pro.recomendService.model.Recommendation;
-import sky.pro.recomendService.repository.RecommendationsRepository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
