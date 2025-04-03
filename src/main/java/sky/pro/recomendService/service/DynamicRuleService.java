@@ -1,0 +1,21 @@
+package sky.pro.recomendService.service;
+import org.springframework.stereotype.Service;
+import sky.pro.recomendService.model.DynamicRule;
+import sky.pro.recomendService.repository.DynamicRuleRepository;
+
+@Service
+public class DynamicRuleService {
+    private final DynamicRuleRepository repository;
+
+    public DynamicRuleService(DynamicRuleRepository repository) {
+        this.repository = repository;
+    }
+
+    public DynamicRule createRule(DynamicRule rule) {
+        // связь RuleCondition и DynamicRule
+        if (rule.getConditions() != null) {
+            rule.getConditions().forEach(condition -> condition.setDynamicRule(rule));
+        }
+        return repository.save(rule);
+    }
+}

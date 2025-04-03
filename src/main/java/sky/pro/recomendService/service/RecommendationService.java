@@ -6,7 +6,6 @@ import sky.pro.recomendService.model.Recommendation;
 import sky.pro.recomendService.repository.RecommendationsRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
