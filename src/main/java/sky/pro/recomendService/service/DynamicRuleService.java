@@ -3,6 +3,8 @@ import org.springframework.stereotype.Service;
 import sky.pro.recomendService.model.DynamicRule;
 import sky.pro.recomendService.repository.DynamicRuleRepository;
 
+import java.util.List;
+
 @Service
 public class DynamicRuleService {
     private final DynamicRuleRepository repository;
@@ -17,5 +19,9 @@ public class DynamicRuleService {
             rule.getConditions().forEach(condition -> condition.setDynamicRule(rule));
         }
         return repository.save(rule);
+    }
+
+    public List<DynamicRule> getAllRules() {
+        return repository.findAll();
     }
 }
