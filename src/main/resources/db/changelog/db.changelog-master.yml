@@ -1,10 +1,5 @@
 databaseChangeLog:
   -
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/RecommendationRules
-    username: student
-    password: chocolatefrog
-    driver-class-name: org.postgresql.Driver
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.xml
+    change-log: classpath:db/changelog/changelog.xml

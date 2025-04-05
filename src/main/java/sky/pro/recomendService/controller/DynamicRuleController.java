@@ -1,8 +1,11 @@
 package sky.pro.recomendService.controller;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sky.pro.recomendService.model.DynamicRule;
 import sky.pro.recomendService.service.DynamicRuleService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/rule")
@@ -17,5 +20,11 @@ public class DynamicRuleController {
     public ResponseEntity<DynamicRule> addRule(@RequestBody DynamicRule rule) {
         DynamicRule savedRule = service.createRule(rule);
         return ResponseEntity.ok(savedRule);
+    }
+
+    @GetMapping("/getRules")
+    public List<DynamicRule> getRules() {
+        List<DynamicRule> getRules = service.getAllRules();
+        return getRules;
     }
 }
