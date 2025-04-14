@@ -37,5 +37,4 @@ public class DynamicRuleController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
