@@ -27,8 +27,6 @@ public class DynamicRuleController {
         List<DynamicRule> getRules = service.getAllRules();
         return getRules;
     }
-<<<<<<< HEAD
-=======
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRule(@PathVariable Long id) {
@@ -40,5 +38,4 @@ public class DynamicRuleController {
         }
     }
 
->>>>>>> feature-3
 }
