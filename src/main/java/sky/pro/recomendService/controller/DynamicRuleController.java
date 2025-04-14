@@ -27,4 +27,15 @@ public class DynamicRuleController {
         List<DynamicRule> getRules = service.getAllRules();
         return getRules;
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRule(@PathVariable Long id) {
+        boolean isDeleted = service.deleteRule(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

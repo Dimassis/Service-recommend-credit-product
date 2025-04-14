@@ -24,4 +24,13 @@ public class DynamicRuleService {
     public List<DynamicRule> getAllRules() {
         return repository.findAll();
     }
+
+    public boolean deleteRule(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }
