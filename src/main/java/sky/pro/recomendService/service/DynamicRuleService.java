@@ -24,8 +24,6 @@ public class DynamicRuleService {
     public List<DynamicRule> getAllRules() {
         return repository.findAll();
     }
-<<<<<<< HEAD
-=======
 
     public boolean deleteRule(Long id) {
         if (repository.existsById(id)) {
@@ -35,5 +33,4 @@ public class DynamicRuleService {
         return false;
     }
 
->>>>>>> feature-3
 }
