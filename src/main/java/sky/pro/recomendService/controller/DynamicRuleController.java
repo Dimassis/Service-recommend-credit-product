@@ -6,6 +6,7 @@ import sky.pro.recomendService.model.DynamicRule;
 import sky.pro.recomendService.service.DynamicRuleService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/rule")
@@ -29,7 +30,7 @@ public class DynamicRuleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRule(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRule(@PathVariable UUID id) {
         boolean isDeleted = service.deleteRule(id);
         if (isDeleted) {
             return ResponseEntity.noContent().build();

@@ -5,10 +5,7 @@ import sky.pro.recomendService.model.DynamicRule;
 import java.util.UUID;
 
 public interface DynamicRuleRepository extends JpaRepository<DynamicRule, UUID>{
-<<<<<<< HEAD
-=======
-    boolean existsById(Long id);
+    boolean existsById(UUID id);
 
-    void deleteById(Long id);
->>>>>>> feature-3
+    void deleteById(UUID id);
 }

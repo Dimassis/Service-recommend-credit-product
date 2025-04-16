@@ -4,6 +4,7 @@ import sky.pro.recomendService.model.DynamicRule;
 import sky.pro.recomendService.repository.DynamicRuleRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DynamicRuleService {
@@ -25,7 +26,7 @@ public class DynamicRuleService {
         return repository.findAll();
     }
 
-    public boolean deleteRule(Long id) {
+    public boolean deleteRule(UUID id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
