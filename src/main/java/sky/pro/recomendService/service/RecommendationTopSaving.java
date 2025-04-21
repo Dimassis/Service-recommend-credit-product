@@ -16,10 +16,13 @@ public class RecommendationTopSaving implements RecommendationRuleSet {
     private final Cache<String, Boolean> cache;
     private final String DESCRIPTION = "Откройте свою собственную «Копилку» с нашим банком! «Копилка» — это уникальный банковский инструмент, который поможет вам легко и удобно накапливать деньги на важные цели";
     private final String NO_RECOMMENDATION = "No recommendation";
+    private final DynamicRuleService dynamicRuleService;
+    private final String ruleId = "TOP_SAVING_RULE";
 
-    public RecommendationTopSaving(JdbcTemplate jdbcTemplate, Cache<String, Boolean> cache) {
+    public RecommendationTopSaving(JdbcTemplate jdbcTemplate, Cache<String, Boolean> cache, DynamicRuleService dynamicRuleService) {
         this.jdbcTemplate = jdbcTemplate;
         this.cache = cache;
+        this.dynamicRuleService = dynamicRuleService;
     }
 
     @Override
@@ -77,9 +80,10 @@ public class RecommendationTopSaving implements RecommendationRuleSet {
             ));
             cache.put(cacheKeyIncomeMoreThanSpending, incomeMoreThanSpending);
         }
-
         // Если хоть одно условие выполнено то даём рекомендацию
         if (hasDebit || incomeOver50k || incomeMoreThanSpending) {
+            // Увеличиваем счетчик срабатываний для соответствующих правил
+            dynamicRuleService.incrementRuleCounter(UUID.fromString(ruleId));
             return Optional.of(List.of(new Recommendation(userId, "Top saving", DESCRIPTION)));
         } else {
             return Optional.of(List.of(new Recommendation(userId, "Top saving", NO_RECOMMENDATION)));
