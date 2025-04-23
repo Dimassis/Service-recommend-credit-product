@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sky.pro.recomendService.model.Recommendation;
 import sky.pro.recomendService.service.RecommendationRuleSet;
-import sky.pro.recomendService.service.RecommendationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +17,22 @@ import java.util.UUID;
 @RequestMapping("/recommendation")
 public class RecommendationController {
 
-    private final RecommendationService service;
+    private final List<RecommendationRuleSet> service;
 
-    public RecommendationController(RecommendationService service) {
-        this.service = service;
+    public RecommendationController(List<RecommendationRuleSet> recommendationServices) {
+        this.service = recommendationServices;
     }
 
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<Recommendation>> getRecommendations(@PathVariable UUID userId) {
-        return ResponseEntity.ok(service.getListRecommendation(userId));
+
+        List<Recommendation> allRecommendations = new ArrayList<>();
+        for (RecommendationRuleSet service : service) {
+            service.getRecommendation(userId).ifPresent(allRecommendations::addAll);
+        }
+
+        return ResponseEntity.ok(allRecommendations);
     }
 
 

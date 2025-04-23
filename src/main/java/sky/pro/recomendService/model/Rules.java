@@ -1,20 +1,29 @@
 package sky.pro.recomendService.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 import java.util.UUID;
 
 @Entity
-public class RecommendationRule {
+@Table(name = "recommendation_rule")
+public class Rules {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
     private String product_name;
     private UUID product_id;
     private String product_text;
     private String rule;
 
-    public RecommendationRule(UUID id, String product_name, UUID product_id, String product_text, String rule) {
+    @Version
+    private int version;
+
+    public Rules(UUID id, String product_name, UUID product_id, String product_text, String rule) {
         this.id = id;
         this.product_name = product_name;
         this.product_id = product_id;
@@ -22,7 +31,7 @@ public class RecommendationRule {
         this.rule = rule;
     }
 
-    public RecommendationRule() {
+    public Rules() {
 
     }
 

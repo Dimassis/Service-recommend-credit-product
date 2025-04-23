@@ -1,14 +1,10 @@
 package sky.pro.recomendService.service;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import sky.pro.recomendService.model.Recommendation;
-import sky.pro.recomendService.repository.RecommendationsRepository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,45 +13,64 @@ import java.util.UUID;
 public class RecommendationSimpleCredit implements RecommendationRuleSet {
 
     private final JdbcTemplate jdbcTemplate;
+    private final Cache<String, Boolean> cache;
     private final String DESCRIPTION = "Откройте мир выгодных кредитов с нами! Ищете способ быстро и без лишних хлопот получить нужную сумму? Тогда наш выгодный кредит — именно то, что вам нужно";
+    private final String NO_RECOMMENDATION = "Нет рекомендации";
 
-    public RecommendationSimpleCredit(JdbcTemplate jdbcTemplate) {
+    public RecommendationSimpleCredit(JdbcTemplate jdbcTemplate, Cache<String, Boolean> cache) {
         this.jdbcTemplate = jdbcTemplate;
+        this.cache = cache;
     }
 
     @Override
     public Optional<List<Recommendation>> getRecommendation(UUID userId) {
+        // Генерируем уникальные ключи для кэша
+        String cacheKeyNoCredit = userId + "_NO_CREDIT_PRODUCTS";
+        String cacheKeyIncomeGreater = userId + "_INCOME_GREATER_THAN_SPENDING";
+        String cacheKeySpendingGreater = userId + "_SPENDING_GREATER_THAN_100K";
 
-        String sql1 = "SELECT COUNT(*) = 0\n" +
-                "FROM PRODUCTS p\n" +
-                "JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID\n" +
-                "WHERE p.TYPE = 'CREDIT'\n" +
-                "AND t.USER_ID = ?;";
+        // Проверяем кэш или выполняем запросы
+        Boolean noCreditProducts = cache.getIfPresent(cacheKeyNoCredit);
+        if (noCreditProducts == null) {
+            noCreditProducts = Boolean.TRUE.equals(jdbcTemplate.queryForObject(
+                    "SELECT COUNT(*) = 0 FROM PRODUCTS p " +
+                            "JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID " +
+                            "WHERE p.TYPE = 'CREDIT' AND t.USER_ID = ?",
+                    Boolean.class,
+                    userId
+            ));
+            cache.put(cacheKeyNoCredit, noCreditProducts);
+        }
 
-        String sql2 = "SELECT\n" +
-                "    (SUM(CASE WHEN t.AMOUNT > 0 THEN t.AMOUNT ELSE 0 END) >\n" +
-                "     SUM(CASE WHEN t.AMOUNT < 0 THEN ABS(t.AMOUNT) ELSE 0 END))\n" +
-                "FROM PRODUCTS p\n" +
-                "JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID\n" +
-                "WHERE p.TYPE = 'DEBIT'\n" +
-                "AND t.USER_ID = ?;";
+        Boolean debitIncomeGreaterThanSpending = cache.getIfPresent(cacheKeyIncomeGreater);
+        if (debitIncomeGreaterThanSpending == null) {
+            debitIncomeGreaterThanSpending = Boolean.TRUE.equals(jdbcTemplate.queryForObject(
+                    "SELECT SUM(CASE WHEN t.AMOUNT > 0 THEN t.AMOUNT ELSE 0 END) > " +
+                            "SUM(CASE WHEN t.AMOUNT < 0 THEN ABS(t.AMOUNT) ELSE 0 END) " +
+                            "FROM PRODUCTS p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID " +
+                            "WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ?",
+                    Boolean.class,
+                    userId
+            ));
+            cache.put(cacheKeyIncomeGreater, debitIncomeGreaterThanSpending);
+        }
 
-        String sql3 = "SELECT\n" +
-                "    (SUM(CASE WHEN t.AMOUNT < 0 THEN ABS(t.AMOUNT) ELSE 0 END) > 100000)\n" +
-                "FROM PRODUCTS p\n" +
-                "JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID\n" +
-                "WHERE p.TYPE = 'DEBIT'\n" +
-                "AND t.USER_ID = ?;";
-
-        boolean noCreditProducts = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql1, Boolean.class, userId));
-        boolean debitIncomeGreaterThanSpending = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql2, Boolean.class, userId));
-        boolean debitSpendingGreaterThan100k = Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql3, Boolean.class, userId));
+        Boolean debitSpendingGreaterThan100k = cache.getIfPresent(cacheKeySpendingGreater);
+        if (debitSpendingGreaterThan100k == null) {
+            debitSpendingGreaterThan100k = Boolean.TRUE.equals(jdbcTemplate.queryForObject(
+                    "SELECT SUM(CASE WHEN t.AMOUNT < 0 THEN ABS(t.AMOUNT) ELSE 0 END) > 100000 " +
+                            "FROM PRODUCTS p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID " +
+                            "WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ?",
+                    Boolean.class,
+                    userId
+            ));
+            cache.put(cacheKeySpendingGreater, debitSpendingGreaterThan100k);
+        }
 
         if (noCreditProducts || debitIncomeGreaterThanSpending || debitSpendingGreaterThan100k) {
-
             return Optional.of(List.of(new Recommendation(userId,"Простой кредит", DESCRIPTION)));
         } else {
-            return Optional.of(List.of(new Recommendation(userId, "Простой кредит", "Нет рекомендации")));
+            return Optional.of(List.of(new Recommendation(userId, "Простой кредит", NO_RECOMMENDATION)));
         }
     }
 }
