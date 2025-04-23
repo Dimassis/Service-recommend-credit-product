@@ -1,0 +1,57 @@
+2025-03-20 15:37:18.275677+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PRODUCTS p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = '88b18332-1632-466c-8dba-17dbcdd09896' [42104-232]
+2025-03-20 15:37:23.014676+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PRODUCTS p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = '88b18332-1632-466c-8dba-17dbcdd09896' [42104-232]
+2025-03-20 15:38:18.915728+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PRODUCTS p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = '88b18332-1632-466c-8dba-17dbcdd09896' [42104-232]
+2025-03-20 15:40:46.875418+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PRODUCTS p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 15:42:49.219584+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.PRODUCTS p JOIN PUBLIC.TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 15:45:48.601044+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+SELECT FIRST_NAME FROM USERS [42104-232]
+2025-03-20 15:46:48.472891+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+SELECT FIRST_NAME FROM USERS [42104-232]
+2025-03-20 15:48:33.091791+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+SELECT FIRST_NAME FROM USERS [42104-232]
+2025-03-20 15:49:02.512473+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.PRODUCTS p JOIN PUBLIC.TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 15:59:36.476090+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.PRODUCTS p JOIN PUBLIC.TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 16:03:48.691337+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.PRODUCTS p JOIN PUBLIC.TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 16:05:35.343432+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.products p JOIN PUBLIC.TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 16:06:20.746347+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 16:08:31.365850+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 16:08:55.317344+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 16:09:15.661150+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 17:39:31.101749+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 17:39:32.076184+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
+2025-03-20 17:56:58.921730+05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM products p JOIN TRANSACTIONS t ON p.ID = t.PRODUCT_ID WHERE p.TYPE = 'DEBIT' AND t.USER_ID = ? [42104-232]
