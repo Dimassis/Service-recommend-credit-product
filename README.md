@@ -6,3 +6,6 @@
 
 #  Технологии 
 Java 17, Spring Boot, Spring Security, Spring Data JPA 
+
+## Запуск  
+См. [Wiki](https://github.com/Dimassis/Service-recommend-credit-product/wiki) 
